@@ -3,21 +3,23 @@ from gtts import gTTS
 from io import BytesIO
 import pandas as pd
 
-# Function to generate and play all phrases in Korean and Chinese order
-def generate_phrases_audio(phrases):
-    try:
-        combined_audio = BytesIO()
-        for phrase, translations in phrases.items():
-            # Add Korean audio
-            korean_tts = gTTS(text=translations["ko"], lang="ko")
-            korean_tts.write_to_fp(combined_audio)
-            
-            # Add Chinese audio
-            chinese_tts = gTTS(text=translations["zh"], lang="zh-CN")
-            chinese_tts.write_to_fp(combined_audio)
+import streamlit as st
+from gtts import gTTS
+import os
 
-        combined_audio.seek(0)
-        return combined_audio
+# Function to generate and save audio for all phrases in Korean and Chinese order
+def save_phrases_audio(phrases, output_file="combined_audio.mp3"):
+    try:
+        with open(output_file, "wb") as f:
+            for phrase, translations in phrases.items():
+                # Add Korean audio
+                korean_tts = gTTS(text=translations["ko"], lang="ko")
+                korean_tts.write_to_fp(f)
+                
+                # Add Chinese audio
+                chinese_tts = gTTS(text=translations["zh"], lang="zh-CN")
+                chinese_tts.write_to_fp(f)
+        return output_file
     except Exception as e:
         st.error(f"Error generating audio: {e}")
         return None
@@ -71,22 +73,29 @@ phrases = {
     "Do you have spicy sauce?": {"zh": "你们有辣酱吗?", "ko": "매운 소스 있나요?"},
 }
 
-# Create a DataFrame to display phrases
-df = pd.DataFrame([
-    {"English": phrase, "Korean": translations["ko"], "Chinese": translations["zh"]}
-    for phrase, translations in phrases.items()
-])
 
 # Streamlit app layout
 st.title("Restaurant Phrases for Macau Travel")
 st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
+
+Create a DataFrame to display phrases
+df = pd.DataFrame([
+    {"English": phrase, "Korean": translations["ko"], "Chinese": translations["zh"]}
+    for phrase, translations in phrases.items()
+])
 
 # Display the phrases in a table
 st.write("Here are the phrases:")
 st.dataframe(df)
 
 # Play all phrases in "Korean → Chinese" order
-if st.button("Play All Phrases (Korean → Chinese)"):
-    combined_audio = generate_phrases_audio(phrases)
-    if combined_audio:
-        st.audio(combined_audio, format="audio/mp3")
+if st.button("Generate and Download Audio"):
+    output_file = save_phrases_audio(phrases)
+    if output_file and os.path.exists(output_file):
+        with open(output_file, "rb") as f:
+            st.download_button(
+                label="Download Combined Audio",
+                data=f,
+                file_name="combined_audio.mp3",
+                mime="audio/mp3",
+            )
