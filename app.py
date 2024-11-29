@@ -78,7 +78,7 @@ phrases = {
 st.title("Restaurant Phrases for Macau Travel")
 st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
 
-Create a DataFrame to display phrases
+#Create a DataFrame to display phrases
 df = pd.DataFrame([
     {"English": phrase, "Korean": translations["ko"], "Chinese": translations["zh"]}
     for phrase, translations in phrases.items()
