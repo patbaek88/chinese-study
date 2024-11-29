@@ -207,10 +207,10 @@ words = [
 ]
 
 # Create a DataFrame with Korean, Chinese, and Pinyin
-df = pd.DataFrame([
+df_words = pd.DataFrame([
     {"Korean": word[0], "Chinese": word[1], "Pinyin": get_pinyin(word[1])}
     for word in words
 ])
 
 # Display the DataFrame
-st.dataframe(df)
+st.dataframe(df_words)
