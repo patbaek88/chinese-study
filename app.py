@@ -6,7 +6,7 @@ from pypinyin import lazy_pinyin, Style
 
 # Function to generate Pinyin for Chinese text
 def get_pinyin(chinese_text):
-    return " ".join(lazy_pinyin(chinese_text, style=Style.TONE3))
+    return " ".join(lazy_pinyin(chinese_text, style=Style.NORMAL))
 
 
 # Function to generate and save audio for all phrases in Korean and Chinese order
