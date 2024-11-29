@@ -110,7 +110,7 @@ if st.button("Generate and Download Audio"):
                 mime="audio/mp3",
             )
 
-st.wirte("")
+st.write("")
 st.subheader("Words")
 
 # Function to get Pinyin with tone marks
