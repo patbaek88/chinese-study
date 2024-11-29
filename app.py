@@ -1,30 +1,20 @@
 import streamlit as st
-import pyttsx3
+from gtts import gTTS
+import os
 
-# Text-to-speech initialization
-def init_tts(language):
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    if language == 'zh':  # Chinese voice
-        for voice in voices:
-            if 'zh' in voice.id:
-                engine.setProperty('voice', voice.id)
-                break
-    elif language == 'ko':  # Korean voice
-        for voice in voices:
-            if 'ko' in voice.id:
-                engine.setProperty('voice', voice.id)
-                break
-    engine.setProperty('rate', 150)  # Adjust speed
-    return engine
+# Function to generate and play TTS audio
+def play_tts(text, lang):
+    try:
+        # Generate audio
+        tts = gTTS(text=text, lang=lang)
+        audio_file = f"output_{lang}.mp3"
+        tts.save(audio_file)
+        # Play audio
+        st.audio(audio_file, format="audio/mp3")
+    except Exception as e:
+        st.error(f"Error generating audio: {e}")
 
-# Speak text
-def speak_text(text, language):
-    engine = init_tts(language)
-    engine.say(text)
-    engine.runAndWait()
-
-# Dictionary for phrases
+# Phrases dictionary
 phrases = {
     "Can I have a menu?": {"zh": "可以给我菜单吗?", "ko": "메뉴판 주세요."},
     "I would like to order this.": {"zh": "我想点这个。", "ko": "이걸로 주문할게요."},
@@ -73,20 +63,20 @@ phrases = {
     "Do you have spicy sauce?": {"zh": "你们有辣酱吗?", "ko": "매운 소스 있나요?"},
 }
 
-# Streamlit app
-st.title("Useful Restaurant Phrases for Macau Travel")
+# Streamlit app layout
+st.title("Restaurant Phrases for Macau Travel")
+st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
 
 # Select a phrase
-st.subheader("Select a phrase to learn:")
 selected_phrase = st.selectbox("Choose a phrase:", list(phrases.keys()))
 
-# Display translations
+# Display the selected phrase in Chinese and Korean
 st.write("### Chinese: ", phrases[selected_phrase]['zh'])
 st.write("### Korean: ", phrases[selected_phrase]['ko'])
 
-# Buttons for TTS
-if st.button("Read in Chinese"):
-    speak_text(phrases[selected_phrase]['zh'], 'zh')
+# Buttons to play audio
+if st.button("Play in Chinese"):
+    play_tts(phrases[selected_phrase]['zh'], "zh")
 
-if st.button("Read in Korean"):
-    speak_text(phrases[selected_phrase]['ko'], 'ko')
+if st.button("Play in Korean"):
+    play_tts(phrases[selected_phrase]['ko'], "ko")
