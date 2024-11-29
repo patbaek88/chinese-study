@@ -213,4 +213,4 @@ df = pd.DataFrame([
 ])
 
 # Display the DataFrame
-st.write(df)
+st.dataframe(df)
