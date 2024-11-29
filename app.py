@@ -1,4 +1,4 @@
-import streamlit as st
+pimport streamlit as st
 import pyttsx3
 
 # Text-to-speech initialization
@@ -89,4 +89,4 @@ if st.button("Read in Chinese"):
     speak_text(phrases[selected_phrase]['zh'], 'zh')
 
 if st.button("Read in Korean"):
-    speak_text(phrases[selected_phrase]['ko'], 'ko')in 
+    speak_text(phrases[selected_phrase]['ko'], 'ko')
