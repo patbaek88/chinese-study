@@ -2,10 +2,12 @@ import streamlit as st
 from gtts import gTTS
 from io import BytesIO
 import pandas as pd
+from pypinyin import lazy_pinyin, Style
 
-import streamlit as st
-from gtts import gTTS
-import os
+# Function to generate Pinyin for Chinese text
+def get_pinyin(chinese_text):
+    return " ".join(lazy_pinyin(chinese_text, style=Style.TONE3))
+
 
 # Function to generate and save audio for all phrases in Korean and Chinese order
 def save_phrases_audio(phrases, output_file="combined_audio.mp3"):
@@ -78,11 +80,18 @@ phrases = {
 st.title("Restaurant Phrases for Macau Travel")
 st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
 
-#Create a DataFrame to display phrases
+
+# Create a DataFrame to display phrases with Pinyin
 df = pd.DataFrame([
-    {"English": phrase, "Korean": translations["ko"], "Chinese": translations["zh"]}
+    {
+        "English": phrase,
+        "Korean": translations["ko"],
+        "Chinese": translations["zh"],
+        "Pinyin": get_pinyin(translations["zh"]),
+    }
     for phrase, translations in phrases.items()
 ])
+
 
 # Display the phrases in a table
 st.write("Here are the phrases:")
