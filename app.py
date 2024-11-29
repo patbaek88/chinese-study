@@ -78,8 +78,8 @@ phrases = {
 
 
 # Streamlit app layout
-st.title("Restaurant Phrases for Macau Travel")
-st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
+st.title("Restaurant Phrases for China Travel")
+st.subheader("Phrases")
 
 
 # Create a DataFrame to display phrases with Pinyin
@@ -110,7 +110,8 @@ if st.button("Generate and Download Audio"):
                 mime="audio/mp3",
             )
 
-
+st.wirte("")
+st.subheader("Words")
 
 # Function to get Pinyin with tone marks
 def get_pinyin(chinese_text):
