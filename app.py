@@ -27,6 +27,11 @@ def save_phrases_audio(phrases, output_file="combined_audio.mp3"):
         st.error(f"Error generating audio: {e}")
         return None
 
+
+# 최대 열 너비를 지정하여 출력
+pd.set_option('display.max_colwidth', None)
+
+
 # Phrases dictionary
 phrases = {
     "Can I have a menu?": {"zh": "可以给我菜单吗?", "ko": "메뉴판 주세요."},
