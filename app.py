@@ -1,20 +1,24 @@
 import streamlit as st
 from gtts import gTTS
 from io import BytesIO
-import os
 
-# Function to generate a single TTS audio file for all phrases
-def generate_combined_audio(phrases, lang):
+# Function to generate and play all phrases in Korean and Chinese order
+def generate_phrases_audio(phrases):
     try:
         combined_audio = BytesIO()
-        for phrase in phrases.values():
-            text = phrase[lang]
-            tts = gTTS(text=text, lang=lang)
-            tts.write_to_fp(combined_audio)
+        for phrase, translations in phrases.items():
+            # Add Korean audio
+            korean_tts = gTTS(text=translations["ko"], lang="ko")
+            korean_tts.write_to_fp(combined_audio)
+            
+            # Add Chinese audio
+            chinese_tts = gTTS(text=translations["zh"], lang="zh-CN")
+            chinese_tts.write_to_fp(combined_audio)
+
         combined_audio.seek(0)
         return combined_audio
     except Exception as e:
-        st.error(f"Error generating combined audio: {e}")
+        st.error(f"Error generating audio: {e}")
         return None
 
 # Phrases dictionary
@@ -35,33 +39,8 @@ phrases = {
 st.title("Restaurant Phrases for Macau Travel")
 st.subheader("Learn useful restaurant phrases in Chinese and Korean!")
 
-# Select a phrase
-selected_phrase = st.selectbox("Choose a phrase:", list(phrases.keys()))
-
-# Display the selected phrase in Chinese and Korean
-st.write("### Chinese: ", phrases[selected_phrase]['zh'])
-st.write("### Korean: ", phrases[selected_phrase]['ko'])
-
-# Buttons to play individual audio
-if st.button("Play in Chinese"):
-    audio = gTTS(text=phrases[selected_phrase]['zh'], lang="zh-CN")
-    audio_file = BytesIO()
-    audio.write_to_fp(audio_file)
-    audio_file.seek(0)
-    st.audio(audio_file, format="audio/mp3")
-
-if st.button("Play in Korean"):
-    audio = gTTS(text=phrases[selected_phrase]['ko'], lang="ko")
-    audio_file = BytesIO()
-    audio.write_to_fp(audio_file)
-    audio_file.seek(0)
-    st.audio(audio_file, format="audio/mp3")
-
-# Generate and play all phrases in one file
-st.subheader("Play All Phrases")
-lang = st.radio("Select Language for Combined Audio:", options=["zh", "ko"], format_func=lambda x: "Chinese" if x == "zh" else "Korean")
-
-if st.button("Play All"):
-    combined_audio = generate_combined_audio(phrases, lang)
+# Play all phrases in "Korean → Chinese" order
+if st.button("Play All Phrases (Korean → Chinese)"):
+    combined_audio = generate_phrases_audio(phrases)
     if combined_audio:
         st.audio(combined_audio, format="audio/mp3")
