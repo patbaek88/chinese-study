@@ -79,6 +79,8 @@ phrases = {
     "Can I pay by cash?": {"zh": "可以用现金支付吗?", "ko": "현금으로 계산 가능한가요?"},
     "What are the ingredients?": {"zh": "这道菜有什么成分?", "ko": "이 요리 재료가 뭐예요?"},
     "Do you have spicy sauce?": {"zh": "你们有辣酱吗?", "ko": "매운 소스 있나요?"},
+    "Can I have a napkin?": {"zh": "可以给我一张纸巾?", "ko": "휴지 한장 주세요."},
+    "Excuse me, is there a drink menu?": {"zh": "请问，有酒水菜单吗?", "ko": "실례지만, 음료 메뉴판 있나요?"},
 }
 
 
