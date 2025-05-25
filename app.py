@@ -127,6 +127,7 @@ def get_pinyin(chinese_text):
 # List of words commonly used in Chinese restaurants (Korean translation)
 words = [
     ("메뉴", "菜单", "cài dān"),
+    ("음료(술포함)메뉴", "酒水菜单", "jiǔshuǐ càidān"),
     ("물", "水", "shuǐ"),
     ("밥", "米饭", "mǐ fàn"),
     ("수프", "汤", "tāng"),
@@ -166,7 +167,7 @@ words = [
     ("접시", "盘子", "pán zi"),
     ("그릇", "碗", "wǎn"),
     ("컵", "杯子", "bēi zi"),
-    ("냅킨", "纸巾", "zhǐ jīn"),
+    ("냅킨(휴지)", "纸巾", "zhǐ jīn"),
     ("숟가락", "勺子", "sháo zi"),
     ("포크", "叉子", "chā zi"),
     ("계산서", "账单", "zhàng dān"),
